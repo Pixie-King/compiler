@@ -1,22 +1,16 @@
 #ifndef TREE_H
 #define TREE_H
-#include<iostream>
-#include<string>
-
-using std::cerr;
-using std::cout;
-using std::endl;
-using std::string;
+#include "pch.h"
+#include "type.h"
 
 enum NodeType{
     NODE_CONST,
-    NODE_BOOL,
     NODE_VAR,
     NODE_EXPR,
     NODE_TYPE,
+
     NODE_STMT,
     NODE_PROG,
-    NODE_OP
 };
 
 enum StmtType{
@@ -41,6 +35,7 @@ enum VarType{
 
 struct TreeNode {
     int nodeID;
+    int lineno;
     NodeType nodeType;
 
     TreeNode *child = nullptr;
@@ -51,22 +46,27 @@ struct TreeNode {
 
     void genNodeId();//从根节点开始逐个赋Id 实现方式同学们可以自行修改
 
-    void printAST();//打印语法树结点
-    /***
-     * 以下的几个函数皆为在printAST过程中辅助输出使用
-     * 同学们可以根据需要自己使用其他方法
-    ***/
-    void printNodeInfo();
-    void printNodeConnection();
-    string nodeTypeInfo();
+    void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
+    void printSpecialInfo();
 
+    void genNodeId();
+
+public:
+    OperatorType optype;  // 如果是表达式
+    Type* type;  // 变量、类型、表达式结点，有类型。
+    StmtType stype;
     int int_val;
-    bool bool_val;
-    StmtType stmtType;
-    OpType opType;
-    VarType varType;
+    char ch_val;
+    bool b_val;
+    string str_val;
     string var_name;
+public:
+    static string nodeType2String (NodeType type);
+    static string opType2String (OperatorType type);
+    static string sType2String (StmtType type);
 
-    TreeNode(NodeType type);
+public:
+    TreeNode(int lineno, NodeType type);
 };
+
 #endif

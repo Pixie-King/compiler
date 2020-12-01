@@ -1,65 +1,62 @@
-%option noyywrap
+%option nounput
 %{
-    #include"common.h"
-    #include"main.tab.hh"
+#include "common.h"
+#include "main.tab.h"  // yacc header
+int lineno=1;
 %}
+BLOCKCOMMENT \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/
+LINECOMMENT \/\/[^\n]*
+EOL	(\r\n|\r|\n)
+WHILTESPACE [[:blank:]]
 
 INTEGER [0-9]+
-ID [[:alpha:]_][[:alpha:][:digit:]_]*
 
-EOL (\r\n|\n)
-WHITE [\t ]
+CHAR \'.?\'
+STRING \".+\"
+
+IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 %%
 
-"true" {
-    TreeNode *node = new TreeNode(NODE_BOOL);
-    node->bool_val = true;
-    yylval = node;
-    return TRUE;
-}
-"false" {
-    TreeNode *node = new TreeNode(NODE_BOOL);
-    node->bool_val = false;
-    yylval = node;
-    return FALSE;
-}
+{BLOCKCOMMENT}  /* do nothing */
+{LINECOMMENT}  /* do nothing */
 
-"int" return INT;
-"void" return VOID;
 
-"if" return IF;
-"while" return WHILE;
-"else" return ELSE;
+"int" return T_INT;
+"bool" return T_BOOL;
+"char" return T_CHAR;
 
-"printf" return PRINTF;
-"scanf" return SCANF;
+"=" return LOP_ASSIGN;
 
-"=" return ASSIGN;
-
-"+" return ADD;
-
-"!" return NOT;
-"==" return EQUAL;
-
-";" return SEMICOLON;
-"(" return LPAREN;
-")" return RPAREN;
-"{" return LBRACE;
-"}" return RBRACE;
+";" return  SEMICOLON;
 
 {INTEGER} {
-    TreeNode *node = new TreeNode(NODE_CONST);
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_INT;
     node->int_val = atoi(yytext);
     yylval = node;
     return INTEGER;
 }
-{ID} {
-    TreeNode *node = new TreeNode(NODE_VAR);
+
+{CHAR} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_CHAR;
+    node->int_val = yytext[1];
+    yylval = node;
+    return CHAR;
+}
+
+{IDENTIFIER} {
+    TreeNode* node = new TreeNode(lineno, NODE_VAR);
     node->var_name = string(yytext);
     yylval = node;
-    return ID;
+    return IDENTIFIER;
 }
-{EOL}
-{WHITE}
 
+{WHILTESPACE} /* do nothing */
+
+{EOL} lineno++;
+
+. {
+    cerr << "[line "<< lineno <<" ] unknown character:" << yytext << endl;
+}
 %%

@@ -1,19 +1,29 @@
-#include"main.tab.hh"
-#include"common.h"
-#include<iostream>
-using std::cout;
-using std::endl;
-TreeNode *root=nullptr;
-int main ()
+#include "common.h"
+#include <fstream>
+
+extern TreeNode *root;
+extern FILE *yyin;
+extern int yyparse();
+
+using namespace std;
+int main(int argc, char *argv[])
 {
-    yyparse();
-    if(root){//若存在语法树结点
-        root->genNodeId();//将整棵语法树赋予id
-        root->printAST();//打印相关信息
+    if (argc == 2)
+    {
+        FILE *fin = fopen(argv[1], "r");
+        if (fin != nullptr)
+        {
+            yyin = fin;
+        }
+        else
+        {
+            cerr << "failed to open file: " << argv[1] << endl;
+        }
     }
-}
-int yyerror(char const* message)
-{
-  cout << message << endl;
-  return -1;
+    yyparse();
+    if(root != NULL) {
+        root->genNodeId();
+        root->printAST();
+    }
+    return 0;
 }
