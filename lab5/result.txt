@@ -1,0 +1,29 @@
+statement!statement!lno@0 @0 program   children:[@1 @5 @9 @23 ]
+lno@1 @1 statement   children:[@2 @3 @4 ] stmt:decl
+lno@1 @2 type
+lno@1 @3 var
+lno@1 @4 const
+lno@2 @5 statement   children:[@6 @7 @8 ] stmt:decl
+lno@2 @6 type
+lno@2 @7 var
+lno@2 @8 const
+lno@3 @9 statement   children:[@10 @14 @18 ] stmt:if_else
+lno@3 @10 expression   children:[@11 ]
+lno@3 @11 expression   children:[@12 @13 ]
+lno@3 @12 const
+lno@3 @13 const
+lno@4 @14 statement   children:[@15 @16 @17 ] stmt:decl
+lno@4 @15 type
+lno@4 @16 var
+lno@4 @17 const
+lno@5 @18 statement   children:[@19 @20 ] stmt:assign
+lno@5 @19 var
+lno@5 @20 expression   children:[@21 @22 ]
+lno@5 @21 var
+lno@5 @22 const
+lno@7 @23 statement   children:[@24 @27 ] stmt:while
+lno@7 @24 expression   children:[@25 @26 ]
+lno@7 @25 var
+lno@7 @26 var
+lno@8 @27 statement   children:[@28 ] stmt:printf
+lno@8 @28 var
