@@ -26,9 +26,18 @@ void TreeNode::genNodeId() {
 void TreeNode::printNodeInfo() {
     cout<<"lno@"<<this->lineno<<" @"<<this->nodeID
     <<" "<<this->nodeType2String(this->nodeType);
-    
+    if (this->nodeType == NODE_CONST || this->nodeType == NODE_TYPE)cout<<" type:"<<this->type->getTypeInfo();
+    if (this->nodeType == NODE_CONST){
+        if(this->type->type == VALUE_INT) cout<<" value:"<<this->int_val;
+        if(this->type->type == VALUE_CHAR) cout<<" value:"<<this->ch_val;
+        if(this->type->type == VALUE_BOOL) cout<<" value:"<<this->b_val;
+        if(this->type->type == VALUE_STRING) cout<<" value:"<<this->str_val;
+    }
+    if (this->nodeType == NODE_VAR)cout<<" varname:"<<this->var_name;
+    if(this->nodeType == NODE_EXPR)cout<<" OP:"<<this->opType2String(this->optype);
     this->printChildrenId();
     if(this->nodeType == NODE_STMT)cout<<" stmt:"<<this->sType2String(this->stype);
+    
     cout<<endl;
 }
 
@@ -67,7 +76,6 @@ void TreeNode::printSpecialInfo() {
             break;
     }
 }
-
 string TreeNode::sType2String(StmtType type) {
     switch (type)
     {
@@ -89,6 +97,9 @@ string TreeNode::sType2String(StmtType type) {
     
     case STMT_WHILE:
         return "while";
+        break;
+    case STMT_FOR:
+        return "for";
         break;
     case STMT_PRINTF:
         return "printf";
@@ -127,6 +138,77 @@ string TreeNode::nodeType2String (NodeType type){
         break;
     case NODE_PROG:
         return "program";
+        break;
+    case NODE_FUNC:
+        return "function";
+        break;
+     case NODE_BLOCK:
+        return "block";
+        break;
+    default:
+        break;
+    }
+    return "";
+}
+string TreeNode::opType2String(OperatorType type) {
+    switch (type)
+    {
+    case OP_ADD:
+        return "+";
+        break;
+    case OP_SUB:
+        return "-";
+        break;
+    case OP_MUL:
+        return "*";
+        break;
+    case OP_DEV:
+        return "/";
+        break;
+    case OP_MOD:
+        return "%";
+        break;
+    case OP_AND:
+        return "&&";
+        break;
+    case OP_OR:
+        return "||";
+        break;
+    case OP_NOT:
+        return "!";
+        break;
+    case OP_L:
+        return ">";
+        break;
+    case OP_LEQ:
+        return ">=";
+        break;
+    case OP_S:
+        return "<";
+        break;
+    case OP_SEQ:
+        return "<=";
+        break;
+    case OP_EQ:
+        return "==";
+        break;
+    case OP_NEQ:
+        return "!=";
+        break;
+    case OP_ASSIGN:
+        return "=";
+        break;
+    case OP_PASSIGN:
+        return "+=";
+        break;
+    case OP_SASSIGN:
+        return "-=";
+        break;
+    case OP_2ADD:
+        return "++";
+        break;
+    case OP_2SUB:
+        return "--";
         break;
     default:
         break;

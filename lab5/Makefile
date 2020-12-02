@@ -25,7 +25,7 @@ main: pch.h.gch
 run: lex yacc main
 
 test: 
-	./main test/0.c > result.txt
+	./main test/1.c > result.txt
 
 clean:
 	rm -f *.output main.lex.yy.cpp main.tab.cpp main.tab.h main.output pch.h.gch $(TARGET) *.o ./* 

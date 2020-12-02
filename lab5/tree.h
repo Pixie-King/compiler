@@ -13,7 +13,9 @@ enum NodeType
     NODE_BOOL,
     NODE_OP,
 
+    NODE_FUNC,
     NODE_STMT,
+    NODE_BLOCK,
     NODE_PROG,
 };
 
@@ -32,7 +34,12 @@ enum OperatorType
     OP_S,  // <
     OP_SEQ,  // <=
     OP_EQ,  // ==
-    OP_NEQ  // !=
+    OP_NEQ,  // !=
+    OP_ASSIGN,// =
+    OP_PASSIGN, // +=
+    OP_SASSIGN, // -=
+    OP_2ADD, //++
+    OP_2SUB, //--
 };
 
 enum StmtType {
@@ -42,6 +49,7 @@ enum StmtType {
     STMT_SEQ,
     STMT_IF_ELSE,
     STMT_WHILE,
+    STMT_FOR,
     STMT_PRINTF,
     STMT_SCANF,
 }

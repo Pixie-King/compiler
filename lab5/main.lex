@@ -10,10 +10,11 @@ EOL	(\r\n|\r|\n)
 WHILTESPACE [[:blank:]]+
 
 INTEGER [0-9]+
-
+CHARVALUE  \'.?\'
+STRING \".+\"
 IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 %%
-
+ 
 {BLOCKCOMMENT}  /* do nothing */
 {LINECOMMENT}  /* do nothing */
 
@@ -34,19 +35,39 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 "bool" return BOOL;
 "char" return CHAR;
 "void" return VOID;
+
 "if" return IF;
 "while" return WHILE;
 "else" return ELSE;
+"for" return FOR;
+
 "printf" return PRINTF;
 "scanf" return SCANF;
 
 "=" return ASSIGN;
+"+=" return PLUS;
+"-=" return MINUS;
 
 "+" return ADD;
+"-" return SUB;
+"*" return MUL;
+"/" return DEV;
+"%" return MOD;
+"++" return TADD;
+"--" return TSUB;
+"&" return GETV;
 
 "!" return NOT;
 "==" return EQUAL;
+">" return LARGE;
+">=" return LEQ;
+"<" return SMALL;
+"<=" return SEQ;
+"!=" return NEQ;
 
+"&&" return AND;
+"\|\|" return OR;
+"," return STARY;
 ";" return SEMICOLON;
 "(" return LPAREN;
 ")" return RPAREN;
@@ -59,6 +80,22 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     node->int_val = atoi(yytext);
     yylval = node;
     return INTEGER;
+}
+
+{CHARVALUE} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_CHAR;
+    node->ch_val = yytext[1];
+    yylval = node;
+    return CHARVALUE;
+}
+
+{STRING} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_STRING;
+    node->str_val = yytext;
+    yylval = node;
+    return STRING;
 }
 
 {IDENTIFIER} {
