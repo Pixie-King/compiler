@@ -2,7 +2,7 @@ lno@0 @0 program   children:[@1 ]
 lno@2 @1 function   children:[@2 @3 @4 ]
 lno@2 @2 type type:void
 lno@2 @3 var varname:main
-lno@3 @4 block   children:[@5 @9 @12 @15 @18 ]
+lno@3 @4 block   children:[@5 @9 @12 @15 @18 @21 ]
 lno@3 @5 statement   children:[@6 @7 @8 ] stmt:decl
 lno@3 @6 type type:int
 lno@3 @7 var varname:a
@@ -16,63 +16,74 @@ lno@5 @14 const type:int value:0
 lno@6 @15 statement   children:[@16 @17 ] stmt:decl
 lno@6 @16 type type:char
 lno@6 @17 var varname:ch
-lno@7 @18 statement   children:[@19 @37 ] stmt:while
-lno@7 @19 expression OP:||   children:[@20 @27 ]
-lno@7 @20 expression OP:&&   children:[@21 @24 ]
-lno@7 @21 expression OP:>   children:[@22 @23 ]
-lno@7 @22 var varname:a
-lno@7 @23 const type:int value:0
-lno@7 @24 expression OP:<=   children:[@25 @26 ]
-lno@7 @25 var varname:a
-lno@7 @26 const type:int value:10
-lno@7 @27 expression OP:&&   children:[@28 @33 ]
-lno@7 @28 expression OP:==   children:[@29 @32 ]
-lno@7 @29 expression OP:%   children:[@30 @31 ]
-lno@7 @30 var varname:a
-lno@7 @31 const type:int value:100
-lno@7 @32 const type:int value:10
-lno@7 @33 expression OP:==   children:[@34 @36 ]
-lno@7 @34 expression OP:!   children:[@35 ]
-lno@7 @35 var varname:a
-lno@7 @36 const type:int value:10
-lno@8 @37 block   children:[@38 @41 @44 @47 @50 ]
-lno@8 @38 statement   children:[@39 @40 ] stmt:assign
-lno@8 @39 var varname:a
-lno@8 @40 const type:int value:1
-lno@9 @41 statement   children:[@42 @43 ] stmt:decl
-lno@9 @42 type type:int
-lno@9 @43 var varname:a
-lno@10 @44 statement   children:[@45 @46 ] stmt:assign
-lno@10 @45 var varname:a
-lno@10 @46 const type:int value:10
+lno@7 @18 statement   children:[@19 @20 ] stmt:scanf placeholder:%d 
+lno@7 @19 const type:string value:"%d"
+lno@7 @20 var varname:ch
+lno@8 @21 statement   children:[@22 @40 ] stmt:while
+lno@8 @22 expression OP:||   children:[@23 @30 ]
+lno@8 @23 expression OP:&&   children:[@24 @27 ]
+lno@8 @24 expression OP:>   children:[@25 @26 ]
+lno@8 @25 var varname:a
+lno@8 @26 const type:int value:0
+lno@8 @27 expression OP:<=   children:[@28 @29 ]
+lno@8 @28 var varname:a
+lno@8 @29 const type:int value:10
+lno@8 @30 expression OP:&&   children:[@31 @36 ]
+lno@8 @31 expression OP:==   children:[@32 @35 ]
+lno@8 @32 expression OP:%   children:[@33 @34 ]
+lno@8 @33 var varname:a
+lno@8 @34 const type:int value:100
+lno@8 @35 const type:int value:10
+lno@8 @36 expression OP:==   children:[@37 @39 ]
+lno@8 @37 expression OP:!   children:[@38 ]
+lno@8 @38 var varname:a
+lno@8 @39 const type:int value:10
+lno@9 @40 block   children:[@41 @44 @47 @50 @53 ]
+lno@9 @41 statement   children:[@42 @43 ] stmt:assign
+lno@9 @42 var varname:a
+lno@9 @43 const type:int value:1
+lno@10 @44 statement   children:[@45 @46 ] stmt:decl
+lno@10 @45 type type:int
+lno@10 @46 var varname:a
 lno@11 @47 statement   children:[@48 @49 ] stmt:assign
-lno@11 @48 var varname:s
-lno@11 @49 var varname:a
-lno@11 @50 statement   children:[@51 @56 ] stmt:if_else
-lno@11 @51 expression OP:<   children:[@52 @54 ]
-lno@11 @52 expression OP:-   children:[@53 ]
-lno@12 @53 var varname:s
-lno@12 @54 expression OP:-   children:[@55 ]
-lno@12 @55 const type:int value:10
-lno@13 @56 block   children:[@57 @60 @63 ]
-lno@13 @57 statement   children:[@58 @59 ] stmt:decl
-lno@13 @58 type type:int
-lno@13 @59 var varname:b
-lno@14 @60 statement   children:[@61 @62 ] stmt:assign
-lno@14 @61 var varname:b
-lno@14 @62 const type:int value:10
-lno@15 @63 statement   children:[@64 @69 @72 @74 ] stmt:for
-lno@15 @64 statement   children:[@65 @66 ] stmt:decl
-lno@15 @65 type type:int
-lno@15 @66 statement   children:[@67 @68 ] stmt:decl
-lno@15 @67 var varname:i
-lno@15 @68 const type:int value:0
-lno@15 @69 expression OP:<   children:[@70 @71 ]
-lno@15 @70 var varname:i
-lno@15 @71 var varname:b
-lno@15 @72 expression OP:++   children:[@73 ]
-lno@15 @73 var varname:i
-lno@16 @74 block   children:[@75 ]
-lno@16 @75 statement   children:[@76 @77 ] stmt:assign
-lno@16 @76 var varname:a
-lno@16 @77 const type:int value:2
+lno@11 @48 var varname:a
+lno@11 @49 const type:int value:10
+lno@12 @50 statement   children:[@51 @52 ] stmt:assign
+lno@12 @51 var varname:s
+lno@12 @52 var varname:a
+lno@12 @53 statement   children:[@54 @59 ] stmt:if_else
+lno@12 @54 expression OP:<   children:[@55 @57 ]
+lno@12 @55 expression OP:-   children:[@56 ]
+lno@13 @56 var varname:s
+lno@13 @57 expression OP:-   children:[@58 ]
+lno@13 @58 const type:int value:10
+lno@14 @59 block   children:[@60 @63 @66 @69 ]
+lno@14 @60 statement   children:[@61 @62 ] stmt:printf placeholder:%d 
+lno@14 @61 const type:string value:"result is: %d\n"
+lno@14 @62 var varname:s
+lno@15 @63 statement   children:[@64 @65 ] stmt:decl
+lno@15 @64 type type:int
+lno@15 @65 var varname:b
+lno@16 @66 statement   children:[@67 @68 ] stmt:assign
+lno@16 @67 var varname:b
+lno@16 @68 const type:int value:10
+lno@17 @69 statement   children:[@70 @74 @77 @79 ] stmt:for
+lno@17 @70 statement   children:[@71 @72 @73 ] stmt:decl
+lno@17 @71 type type:int
+lno@17 @72 var varname:i
+lno@17 @73 const type:int value:0
+lno@17 @74 expression OP:<   children:[@75 @76 ]
+lno@17 @75 var varname:i
+lno@17 @76 var varname:b
+lno@17 @77 expression OP:++   children:[@78 ]
+lno@17 @78 var varname:i
+lno@18 @79 block   children:[@80 ]
+lno@18 @80 statement   children:[@81 @82 ] stmt:printf placeholder:%d 
+lno@18 @81 const type:string value:"Have fun: %d\n"
+lno@18 @82 var varname:i
+name:a type:int value:changed
+name:a type:int value:changed
+name:b type:int value:changed
+name:ch type:char value:not initialization
+name:i type:int value:initialization
+name:s type:int value:changed

@@ -3,6 +3,7 @@
 
 extern TreeNode *root;
 extern FILE *yyin;
+extern IdTable* idtable;
 extern int yyparse();
 
 using namespace std;
@@ -24,6 +25,9 @@ int main(int argc, char *argv[])
     if(root != NULL) {
         root->genNodeId();
         root->printAST();
+    }
+    if(idtable!=nullptr){
+        idtable->printIDTable();
     }
     return 0;
 }

@@ -2,6 +2,7 @@
     #include "common.h"
     #define YYSTYPE TreeNode *  
     TreeNode* root;
+    IdTable* idtable = new IdTable();
     extern int lineno;
     int yylex();
     int yyerror( char const * );
@@ -32,7 +33,9 @@
 %%
 
 program
-    :submodules {root = new TreeNode(0, NODE_PROG); root->addChild($1);}
+    :submodules {
+        root = new TreeNode(0, NODE_PROG); root->addChild($1);
+    }
     ;
 
 submodules
@@ -87,23 +90,26 @@ declaration
         node->stype=STMT_DECL;
         node->addChild($1);
         node->addChild($2);
+        TreeNode* current = $2;
+        while(current != nullptr){
+            idtable->addID(new IDinfo(current->var_name,$1->type));
+            current = current->sibling;
+        }
+        $$=node;
+    }
+    |type IDENTIFIER ASSIGN assign_expr SEMICOLON{
+        TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+        node->stype=STMT_DECL;
+        node->addChild($1);
+        node->addChild($2);
+        node->addChild($4);
+        idtable->addID(new IDinfo($2->var_name,$1->type,"initialization"));
         $$=node;
     }
 ;
 idlist
     : IDENTIFIER{$$ = $1;}
-    | singledecl{$$=$1;}
     | idlist STARY IDENTIFIER{$$ = $1; $$->addSibling($3);}
-    | idlist STARY singledecl{$$ = $1; $$->addSibling($3);}
-    ;
-singledecl
-:IDENTIFIER ASSIGN assign_expr{
-        TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
-        node->stype=STMT_DECL;
-        node->addChild($1);
-        node->addChild($3);
-        $$=node;
-    }
     ;
 assign_stmt
     : IDENTIFIER ASSIGNOP expr SEMICOLON {
@@ -111,6 +117,7 @@ assign_stmt
             node->stype=STMT_ASSIGN;
             node->addChild($1);
             node->addChild($3);
+            idtable->changeValue($1->var_name,"changed");
             $$=node;  
         }
     ;
@@ -219,6 +226,20 @@ firstexpr
         node->stype=STMT_DECL;
         node->addChild($1);
         node->addChild($2);
+        TreeNode* current = $2;
+        while(current != nullptr){
+            idtable->addID(new IDinfo(current->var_name,$1->type));
+            current = current->sibling;
+        }
+        $$=node;
+    }
+    |type IDENTIFIER ASSIGN assign_expr{
+        TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+        node->stype=STMT_DECL;
+        node->addChild($1);
+        node->addChild($2);
+        node->addChild($4);
+        idtable->addID(new IDinfo($2->var_name,$1->type,"initialization"));
         $$=node;
     }
     ;
@@ -241,17 +262,49 @@ printf
         node->addChild($3);
         $$=node;
     }
+    |PRINTF LPAREN STRING STARY expr RPAREN {
+        TreeNode *node=new TreeNode($3->lineno,NODE_STMT);
+        node->stype=STMT_PRINTF;
+        node->addChild($3);
+        node->addChild($5);
+        char ch[100];
+        strcpy(ch,$3->str_val.c_str());
+        for(size_t i = 1;i < strlen(ch) - 1;i++){
+            if(ch[i] == '%'){
+                node->IOlist += '%';
+                node->IOlist += ch[i + 1];
+                node->IOlist += ' ';
+            }
+        }
+        $$=node;
+    }
+        
+    
     ;
 
 scanf
-    : SCANF LPAREN expr RPAREN {
+    : SCANF LPAREN STRING STARY inexpr RPAREN {
         TreeNode *node=new TreeNode($3->lineno,NODE_STMT);
         node->stype=STMT_SCANF;
         node->addChild($3);
+        node->addChild($5);
+        char ch[100];
+        strcpy(ch,$3->str_val.c_str());
+        for(size_t i = 1;i < strlen(ch) - 1;i++){
+            if(ch[i] == '%'){
+                node->IOlist += '%';
+                node->IOlist += ch[i + 1];
+                node->IOlist += ' ';
+            }
+        }
         $$=node;
     }
     ;
 
+inexpr
+    : GETV IDENTIFIER{$$=$2;}
+    | inexpr STARY GETV IDENTIFIER{$$=$1;$$->addSibling($4);}
+    ;
 bool_expr
     : TRUE {$$=$1;}
     | FALSE {$$=$1;}

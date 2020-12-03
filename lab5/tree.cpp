@@ -37,7 +37,9 @@ void TreeNode::printNodeInfo() {
     if(this->nodeType == NODE_EXPR)cout<<" OP:"<<this->opType2String(this->optype);
     this->printChildrenId();
     if(this->nodeType == NODE_STMT)cout<<" stmt:"<<this->sType2String(this->stype);
-    
+    if(this->nodeType == NODE_STMT && (this->stype == STMT_PRINTF || this->stype == STMT_SCANF)){
+        cout<<" placeholder:"<<this->IOlist;
+    }
     cout<<endl;
 }
 
